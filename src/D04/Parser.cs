@@ -2,7 +2,7 @@
 {
   public static class Parser
   {
-    public static List<Pair> Parse(string path)
+    public static IEnumerable<Pair> Parse(string path)
     {
       var pairs = new List<Pair>();
       var lines = File.ReadAllLines(path);
@@ -13,12 +13,12 @@
         var elf2 = new List<int>();
 
         var fragments = line.Split(',');
-        var limits1   = fragments[0].Split('-');
-        var limits2   = fragments[1].Split('-');
-        var start1    = int.Parse(limits1[0]);
-        var end1      = int.Parse(limits1[1]);
-        var start2    = int.Parse(limits2[0]);
-        var end2      = int.Parse(limits2[1]);
+        var limits1 = fragments[0].Split('-');
+        var limits2 = fragments[1].Split('-');
+        var start1 = int.Parse(limits1[0]);
+        var end1 = int.Parse(limits1[1]);
+        var start2 = int.Parse(limits2[0]);
+        var end2 = int.Parse(limits2[1]);
 
         int val = start1;
         for (int i = 0; i < end1 - start1 + 1; i++)
@@ -34,7 +34,7 @@
           val++;
         }
 
-        pairs.Add(new Pair() { Elf1 = elf1, Elf2 = elf2 });
+        pairs.Add(new Pair(elf1, elf2));
       }
 
       return pairs;

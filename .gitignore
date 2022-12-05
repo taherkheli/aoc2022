@@ -1,5 +1,3 @@
-Driver
-
 # Created by https://www.gitignore.io/api/csharp,visualstudio
 # Edit at https://www.gitignore.io/?templates=csharp,visualstudio
 
@@ -31,6 +29,7 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
+/src/obj/
 [Ll]og/
 
 # Visual Studio 2015/2017 cache/options directory
@@ -75,6 +74,7 @@ StyleCopReport.xml
 *.ilk
 *.meta
 *.obj
+./src/obj/**
 *.iobj
 *.pch
 *.pdb

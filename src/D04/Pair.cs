@@ -1,8 +1,4 @@
 ﻿namespace aoc.D04
 {
-  public struct Pair
-  {
-    public List<int> Elf1;
-    public List<int> Elf2;
-  }
+  public readonly record struct Pair(IEnumerable<int> Elf1, IEnumerable<int> Elf2);
 }
