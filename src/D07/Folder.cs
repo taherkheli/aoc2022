@@ -3,7 +3,6 @@
   public class Folder
   {
     private string _name;
-    private int _size;
     private Folder? _parent;
     readonly List<Folder> _folders;
     readonly List<Filex> _files;
