@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Xml.Linq;
-
-namespace aoc.D07
+﻿namespace aoc.D07
 {
   public class Shell
   {
@@ -13,47 +10,32 @@ namespace aoc.D07
     {
       _rootFolder = new Folder("/", null);
       _currentFolder = _rootFolder;
-      _lines = File.ReadAllLines(path); 
+      _lines = File.ReadAllLines(path);
+      Process();
     }
 
     public int PartI()
     {
-      Process();
-
-      var interesting = new List<Folder>();
-
-      var L1 = _rootFolder.Folders.FindAll(f => f.Size < 100000);
-      interesting.AddRange(L1);
-      var L2 = L1[0].Folders.FindAll(f => f.Size < 100000);
-      interesting.AddRange(L2);
+      var list = TraverseTree();
+      var candidates = list.FindAll(f => f.Size < 100000);
 
       int sum = 0;
-      foreach (var item in interesting)
-      {
+      foreach (var item in candidates)
         sum += item.Size;
-      }
 
-      var updated = _rootFolder.Folders;
-      var interest = new List<Folder>();
+      return sum;
+    }
 
-      while (true)
-      {
-        updated = updated.FindAll(f => f.Size < 100000);
-        if (updated.Count == 0)
-          break;
-        else
-        {
-          interest.AddRange(updated);
-        }
+    public int PartII()
+    {
+      int diskSPace = 70000000;
+      int spaceNeeded = 30000000;
+      int freeSpace = diskSPace - _rootFolder.Size;
 
-
-        if (StopNow(updated) == true)
-          break;
-      }
-
-
-
-      return 0;
+      var list = TraverseTree();
+      var candidates = list.FindAll(f => freeSpace + f.Size > spaceNeeded);
+      candidates = candidates.OrderBy(f =>  f.Size).ToList();
+      return candidates[0].Size;
     }
 
     private void Process()
@@ -125,14 +107,26 @@ namespace aoc.D07
       }
     }
 
-    bool StopNow(List<Folder> folders)
+    private List<Folder> TraverseTree()
     {
-      int sum = 0;
+      var all = new List<Folder>();
+      var folders = new Stack<Folder>(20);
 
-      foreach (var folder in folders)
-        sum += folder.Folders.Count;
+      folders.Push(_rootFolder);
+      all.Add(_rootFolder);
 
-      return sum == 0;
+      while (folders.Count > 0)
+      {
+        var currentDir = folders.Pop();
+
+        foreach (var f in currentDir.Folders)
+        {
+          folders.Push(f);
+          all.Add(f);
+        }
+      }
+
+      return all;
     }
   }
 }
